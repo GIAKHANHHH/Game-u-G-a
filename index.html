@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đấu Giá Kiến Thức - Chinh Phục Tây Tiến</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sound Controls Overhead -->
+    <div id="sound-control-panel">
+        <button id="toggle-sound-btn" class="icon-btn">🔊 Bật Âm Thanh</button>
+        <div class="volume-slider-wrap">
+            <label for="volume-range">🔊</label>
+            <input type="range" id="volume-range" min="0" max="1" step="0.05" value="0.7">
+        </div>
+        <button id="fullscreen-btn" class="icon-btn">⛶ Toàn Màn Hình</button>
+    </div>
+
+    <div class="game-container">
+        <!-- 1. MÀN HÌNH CHÀO -->
+        <section id="screen-welcome" class="screen active">
+            <div class="welcome-box">
+                <h2 class="sub-title">GAMESHOW TRUYỀN HÌNH GIÁO DỤC</h2>
+                <h1 class="main-title">ĐẤU GIÁ KIẾN THỨC<br><span class="highlight">CHINH PHỤC TÂY TIẾN</span></h1>
+                <p class="author-tag">Tác phẩm: Tây Tiến - Quang Dũng</p>
+                <div class="action-btns">
+                    <button id="start-game-btn" class="btn btn-primary btn-glow">BẮT ĐẦU NGAY</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MÀN HÌNH THIẾT LẬP -->
+        <section id="screen-setup" class="screen">
+            <div class="setup-box">
+                <h2>THIẾT LẬP TÊN CÁC ĐỘI CHƠI</h2>
+                <p class="setup-subtitle">Mỗi đội sẽ khởi đầu với <strong>100 điểm</strong></p>
+                
+                <div class="teams-input-container">
+                    <div class="team-input-card">
+                        <span class="badge team-1-bg">ĐỘI 1</span>
+                        <input type="text" id="team1-name" value="Đội Sông Mã" maxlength="20">
+                        <span class="initial-score">100 Điểm</span>
+                    </div>
+                    <div class="team-input-card">
+                        <span class="badge team-2-bg">ĐỘI 2</span>
+                        <input type="text" id="team2-name" value="Đội Pha Luông" maxlength="20">
+                        <span class="initial-score">100 Điểm</span>
+                    </div>
+                    <div class="team-input-card">
+                        <span class="badge team-3-bg">ĐỘI 3</span>
+                        <input type="text" id="team3-name" value="Đội Mường Lát" maxlength="20">
+                        <span class="initial-score">100 Điểm</span>
+                    </div>
+                </div>
+
+                <button id="confirm-setup-btn" class="btn btn-gold">VÀO VÒNG ĐẤU GIÁ</button>
+            </div>
+        </section>
+
+        <!-- HEADER ĐIỂM SỐ DÙNG CHUNG CHO CÁC MÀN HÌNH GAME -->
+        <div id="game-scoreboard" class="scoreboard-bar hidden">
+            <div class="team-score-card t1">
+                <div class="t-name" id="board-team1-name">Đội 1</div>
+                <div class="t-score" id="board-team1-score">100</div>
+                <div class="t-bid-tag" id="board-team1-bid">Cược: --</div>
+            </div>
+            <div class="q-progress">
+                <span id="current-question-num">CÂU 1</span> / 5
+            </div>
+            <div class="team-score-card t2">
+                <div class="t-name" id="board-team2-name">Đội 2</div>
+                <div class="t-score" id="board-team2-score">100</div>
+                <div class="t-bid-tag" id="board-team2-bid">Cược: --</div>
+            </div>
+            <div class="team-score-card t3">
+                <div class="t-name" id="board-team3-name">Đội 3</div>
+                <div class="t-score" id="board-team3-score">100</div>
+                <div class="t-bid-tag" id="board-team3-bid">Cược: --</div>
+            </div>
+        </div>
+
+        <!-- 3. MÀN HÌNH ĐẤU GIÁ -->
+        <section id="screen-bidding" class="screen">
+            <h2 class="section-title">VÒNG ĐẤU GIÁ MỨC ĐIỂM</h2>
+            <p class="bidding-desc">Hãy chọn mức cược (10, 20 hoặc 30 điểm) cho từng đội trước khi xem câu hỏi!</p>
+            
+            <div class="bidding-grid">
+                <!-- Đội 1 -->
+                <div class="bid-card" id="bid-card-1">
+                    <h3 id="bid-t1-title">Đội 1</h3>
+                    <div class="bid-options">
+                        <button class="bid-btn" data-team="1" data-value="10">10 ĐIỂM</button>
+                        <button class="bid-btn" data-team="1" data-value="20">20 ĐIỂM</button>
+                        <button class="bid-btn" data-team="1" data-value="30">30 ĐIỂM</button>
+                    </div>
+                    <div class="bid-status" id="bid-status-1">Chưa đặt cược</div>
+                </div>
+
+                <!-- Đội 2 -->
+                <div class="bid-card" id="bid-card-2">
+                    <h3 id="bid-t2-title">Đội 2</h3>
+                    <div class="bid-options">
+                        <button class="bid-btn" data-team="2" data-value="10">10 ĐIỂM</button>
+                        <button class="bid-btn" data-team="2" data-value="20">20 ĐIỂM</button>
+                        <button class="bid-btn" data-team="2" data-value="30">30 ĐIỂM</button>
+                    </div>
+                    <div class="bid-status" id="bid-status-2">Chưa đặt cược</div>
+                </div>
+
+                <!-- Đội 3 -->
+                <div class="bid-card" id="bid-card-3">
+                    <h3 id="bid-t3-title">Đội 3</h3>
+                    <div class="bid-options">
+                        <button class="bid-btn" data-team="3" data-value="10">10 ĐIỂM</button>
+                        <button class="bid-btn" data-team="3" data-value="20">20 ĐIỂM</button>
+                        <button class="bid-btn" data-team="3" data-value="30">30 ĐIỂM</button>
+                    </div>
+                    <div class="bid-status" id="bid-status-3">Chưa đặt cược</div>
+                </div>
+            </div>
+
+            <button id="start-question-btn" class="btn btn-gold disabled" disabled>XÁC NHẬN CƯỢC & MỞ CÂU HỎI</button>
+        </section>
+
+        <!-- 4. MÀN HÌNH CÂU HỎI -->
+        <section id="screen-question" class="screen">
+            <div class="timer-wrapper">
+                <div class="timer-circle" id="timer-display">30</div>
+            </div>
+            
+            <div class="question-box">
+                <span class="q-tag" id="q-category">CÂU HỎI</span>
+                <h2 id="q-text">Nội dung câu hỏi hiển thị tại đây...</h2>
+            </div>
+
+            <div class="answers-grid">
+                <div class="answer-card" data-opt="A">
+                    <span class="opt-key">A</span>
+                    <span class="opt-text" id="opt-a-text">Phương án A</span>
+                </div>
+                <div class="answer-card" data-opt="B">
+                    <span class="opt-key">B</span>
+                    <span class="opt-text" id="opt-b-text">Phương án B</span>
+                </div>
+                <div class="answer-card" data-opt="C">
+                    <span class="opt-key">C</span>
+                    <span class="opt-text" id="opt-c-text">Phương án C</span>
+                </div>
+                <div class="answer-card" data-opt="D">
+                    <span class="opt-key">D</span>
+                    <span class="opt-text" id="opt-d-text">Phương án D</span>
+                </div>
+            </div>
+
+            <div class="question-ctrls">
+                <button id="show-answer-btn" class="btn btn-gold">HIỂN THỊ ĐÁP ÁN & ĐÁNH GIÁ</button>
+            </div>
+        </section>
+
+        <!-- 5. MÀN HÌNH KẾT QUẢ CÂU HỎI -->
+        <section id="screen-result" class="screen">
+            <h2 class="section-title">ĐÁP ÁN VÀ ĐÁNH GIÁ</h2>
+            
+            <div class="result-box">
+                <div class="correct-answer-banner">
+                    ĐÁP ÁN ĐÚNG: <span id="correct-opt-letter">B</span>. <span id="correct-opt-text">Nội dung</span>
+                </div>
+                <div class="explanation-box">
+                    <strong>💡 GIẢI THÍCH KIẾN THỨC:</strong>
+                    <p id="explanation-text">Giải thích chi tiết tại đây...</p>
+                </div>
+            </div>
+
+            <div class="referee-panel">
+                <h3>XÁC NHẬN KẾT QUẢ TRẢ LỜI CỦA CÁC ĐỘI (MC / GIÁO VIÊN)</h3>
+                <div class="teams-eval-grid">
+                    <div class="eval-card">
+                        <h4 id="eval-t1-name">Đội 1</h4>
+                        <div class="eval-bid-info">Mức cược: <strong id="eval-t1-bid">0</strong> điểm</div>
+                        <div class="eval-actions">
+                            <button class="btn-eval correct" data-team="1" data-result="true">✓ ĐÚNG (+)</button>
+                            <button class="btn-eval wrong" data-team="1" data-result="false">✗ SAI (-)</button>
+                        </div>
+                    </div>
+                    <div class="eval-card">
+                        <h4 id="eval-t2-name">Đội 2</h4>
+                        <div class="eval-bid-info">Mức cược: <strong id="eval-t2-bid">0</strong> điểm</div>
+                        <div class="eval-actions">
+                            <button class="btn-eval correct" data-team="2" data-result="true">✓ ĐÚNG (+)</button>
+                            <button class="btn-eval wrong" data-team="2" data-result="false">✗ SAI (-)</button>
+                        </div>
+                    </div>
+                    <div class="eval-card">
+                        <h4 id="eval-t3-name">Đội 3</h4>
+                        <div class="eval-bid-info">Mức cược: <strong id="eval-t3-bid">0</strong> điểm</div>
+                        <div class="eval-actions">
+                            <button class="btn-eval correct" data-team="3" data-result="true">✓ ĐÚNG (+)</button>
+                            <button class="btn-eval wrong" data-team="3" data-result="false">✗ SAI (-)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="next-question-btn" class="btn btn-gold disabled" disabled>CẬP NHẬT ĐIỂM & CHUYỂN CÂU HỎI KẾ TỰ</button>
+        </section>
+
+        <!-- 6. MÀN HÌNH CHUNG CUỘC -->
+        <section id="screen-final" class="screen">
+            <canvas id="fireworks-canvas"></canvas>
+            <div class="final-box">
+                <h1 class="winner-title">🏆 CHÚC MỪNG ĐỘI CHIẾN THẮNG 🏆</h1>
+                <h2 id="winner-name-display" class="winner-team-name">ĐỘI SÔNG MÃ</h2>
+                
+                <div class="podium-container">
+                    <div class="leaderboard-table">
+                        <h3>BẢNG XẾP HẠNG CHUNG CUỘC</h3>
+                        <div id="final-ranks-list"></div>
+                    </div>
+                </div>
+
+                <button id="restart-game-btn" class="btn btn-primary btn-glow">CHƠI LẠI TRÒ CHƠI</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
